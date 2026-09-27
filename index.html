@@ -1,0 +1,5275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="icon" type="image/png" href="assets/fraudguard-favicon.png">
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>FraudGuard — AI Fraud Detection</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>/* =========================
+   INPUT HELP
+========================= */
+
+.input-help {
+
+    color: #505050;
+
+    font-size: 9px;
+
+    line-height: 1.4;
+
+    margin-top: 7px;
+
+}
+
+
+/* =========================
+   DEMO TRANSACTIONS
+========================= */
+
+.demo-section {
+
+    margin-top: 18px;
+
+    padding: 16px;
+
+    border-radius: 14px;
+
+    background:
+        rgba(255,255,255,0.025);
+
+    border: 1px solid #1e1e1e;
+
+}
+
+
+.demo-heading {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-bottom: 12px;
+
+    font-size: 11px;
+
+    color: #ddd;
+
+    font-weight: 600;
+
+}
+
+
+.demo-heading-muted {
+
+    color: #555;
+
+    font-weight: 400;
+
+}
+
+
+.demo-buttons {
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 8px;
+
+}
+
+
+.demo-button {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: 11px 8px;
+
+    border-radius: 10px;
+
+    border: 1px solid #252525;
+
+    background: #0b0b0b;
+
+    color: #aaa;
+
+    font-family: inherit;
+
+    font-size: 10px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+
+}
+
+
+.demo-button:hover {
+
+    border-color:
+        rgba(255,100,0,0.45);
+
+    color: white;
+
+    transform: translateY(-1px);
+
+}
+
+
+.demo-dot {
+
+    width: 7px;
+
+    height: 7px;
+
+    border-radius: 50%;
+
+    flex-shrink: 0;
+
+}
+
+
+.demo-dot.legit {
+
+    background: #777;
+
+}
+
+
+.demo-dot.fraud {
+
+    background: var(--orange);
+
+    box-shadow:
+        0 0 8px
+        rgba(255,90,0,0.5);
+
+}
+
+
+.demo-status {
+
+    margin-top: 10px;
+
+    color: #444;
+
+    font-size: 9px;
+
+    line-height: 1.5;
+
+}
+
+
+/* Loaded example */
+
+.demo-section.loaded {
+
+    border-color:
+        rgba(255,100,0,0.22);
+
+}
+
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #050505;
+            --card: #0d0d0d;
+            --card-light: #121212;
+            --text: #f5f5f5;
+            --muted: #858585;
+            --orange: #ff6500;
+            --orange-light: #ff9d52;
+            --border: rgba(255,255,255,0.10);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background:
+                radial-gradient(
+                    circle at 50% -10%,
+                    rgba(255, 91, 0, 0.17),
+                    transparent 35%
+                ),
+                var(--bg);
+
+            color: var(--text);
+
+            font-family: "DM Sans", sans-serif;
+
+            min-height: 100vh;
+
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+
+            position: fixed;
+
+            inset: 0;
+
+            background-image:
+                radial-gradient(
+                    rgba(255,255,255,0.15) 1px,
+                    transparent 1px
+                );
+
+            background-size: 6px 6px;
+
+            opacity: 0.035;
+
+            pointer-events: none;
+
+            z-index: -1;
+        }
+
+        a {
+            color: inherit;
+        }
+
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        nav {
+            width: min(1150px, calc(100% - 40px));
+
+            margin: auto;
+
+            padding: 25px 0;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+        }
+
+        .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    font-family: "Space Grotesk";
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -1px;
+}
+
+.logo img {
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.logo span {
+    color: #ffffff;
+}
+
+        .logo span {
+            color: var(--orange);
+        }
+
+        .nav-links {
+            display: flex;
+
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: #858585;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+        .github-button {
+            border: 1px solid var(--border);
+
+            padding: 10px 16px;
+
+            border-radius: 30px;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            transition: 0.25s;
+        }
+
+        .github-button:hover {
+            background: white;
+
+            color: black;
+        }
+
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            width: min(1050px, calc(100% - 40px));
+
+            margin: auto;
+
+            text-align: center;
+
+            padding: 85px 0 55px;
+        }
+
+        .eyebrow {
+            color: var(--orange-light);
+
+            text-transform: uppercase;
+
+            letter-spacing: 4px;
+
+            font-size: 11px;
+
+            margin-bottom: 25px;
+        }
+
+        .hero h1 {
+            font-family: "Space Grotesk";
+
+            font-size: clamp(50px, 8vw, 94px);
+
+            line-height: 0.94;
+
+            letter-spacing: -6px;
+
+            font-weight: 600;
+        }
+
+        .hero h1 span {
+            color: var(--orange);
+        }
+
+        .hero-description {
+            max-width: 610px;
+
+            margin: 30px auto;
+
+            color: #888;
+
+            line-height: 1.7;
+
+            font-size: 16px;
+        }
+
+        .hero-buttons {
+            display: flex;
+
+            justify-content: center;
+
+            gap: 12px;
+
+            margin-top: 28px;
+        }
+
+        button {
+            font-family: inherit;
+        }
+
+        .primary-btn {
+            border: none;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff8127,
+                    #ff4d00
+                );
+
+            color: white;
+
+            padding: 15px 24px;
+
+            border-radius: 13px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 0 35px
+                rgba(255,90,0,0.22);
+
+            transition: 0.25s;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 0 50px
+                rgba(255,90,0,0.38);
+        }
+
+        .secondary-btn {
+            border: 1px solid var(--border);
+
+            background: transparent;
+
+            color: white;
+
+            padding: 15px 24px;
+
+            border-radius: 13px;
+
+            cursor: pointer;
+
+            transition: 0.25s;
+        }
+
+        .secondary-btn:hover {
+            background: white;
+
+            color: black;
+        }
+
+
+        /* =========================
+           HERO VISUAL
+        ========================= */
+
+        .visual {
+            width: min(1000px, calc(100% - 40px));
+
+            height: 310px;
+
+            margin: 30px auto 100px;
+
+            border-radius: 32px;
+
+            overflow: hidden;
+
+            position: relative;
+
+            border: 1px solid rgba(255,255,255,0.10);
+
+            background:
+                radial-gradient(
+                    circle at 15% 90%,
+                    #ffb75c,
+                    transparent 34%
+                ),
+                radial-gradient(
+                    circle at 75% 25%,
+                    rgba(255,67,0,0.75),
+                    transparent 42%
+                ),
+                linear-gradient(
+                    135deg,
+                    #26140b,
+                    #0d0d0d 55%,
+                    #2a0d07
+                );
+
+            box-shadow:
+                0 30px 100px
+                rgba(255,70,0,0.13);
+        }
+
+        .visual-text {
+            position: absolute;
+
+            left: 35px;
+
+            top: 30px;
+
+            font-family: "Space Grotesk";
+
+            font-size: clamp(50px, 9vw, 110px);
+
+            letter-spacing: -7px;
+
+            color: rgba(255,255,255,0.12);
+
+            font-weight: 700;
+        }
+
+        .shield {
+    position: absolute;
+    width: 145px;
+    height: 165px;
+    right: 15%;
+    top: 50%;
+    transform: translateY(-50%);
+
+    clip-path: polygon(
+        50% 0%,
+        92% 15%,
+        85% 65%,
+        50% 100%,
+        15% 65%,
+        8% 15%
+    );
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffd08a 0%,
+            #ff8a32 35%,
+            #ff5200 75%,
+            #d93600 100%
+        );
+
+    box-shadow:
+        0 0 45px rgba(255, 90, 0, 0.35),
+        inset 0 0 25px rgba(255, 255, 255, 0.15);
+
+    overflow: hidden;
+}
+
+/* Glass highlight */
+.shield::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 15%;
+    width: 35%;
+    height: 100%;
+
+    background: linear-gradient(
+        180deg,
+        rgba(255,255,255,0.32),
+        rgba(255,255,255,0.03)
+    );
+
+    transform: skewX(-12deg);
+}
+
+/* Clean check mark */
+.shield::after {
+    content: "✓";
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-family: Arial, sans-serif;
+    font-size: 62px;
+    font-weight: 700;
+
+    color: white;
+
+    text-shadow:
+        0 2px 8px rgba(0,0,0,0.12);
+}
+
+
+        /* =========================
+           STATS
+        ========================= */
+
+        .stats {
+            width: min(1000px, calc(100% - 40px));
+
+            margin: auto;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 12px;
+        }
+
+        .stat {
+            background:
+                rgba(255,255,255,0.035);
+
+            border: 1px solid var(--border);
+
+            border-radius: 20px;
+
+            padding: 25px;
+
+            transition: 0.25s;
+        }
+
+        .stat:hover {
+            border-color:
+                rgba(255,100,0,0.4);
+
+            transform: translateY(-3px);
+        }
+
+        .stat-number {
+            font-family: "Space Grotesk";
+
+            font-size: 29px;
+
+            font-weight: 600;
+        }
+
+        .stat-label {
+            color: #666;
+
+            font-size: 10px;
+
+            letter-spacing: 1px;
+
+            margin-top: 8px;
+        }
+
+
+        /* =========================
+           SECTIONS
+        ========================= */
+
+        section {
+            width: min(1000px, calc(100% - 40px));
+
+            margin: auto;
+
+            padding: 110px 0 30px;
+        }
+
+        .section-label {
+            color: var(--orange);
+
+            font-size: 10px;
+
+            letter-spacing: 3px;
+
+            text-transform: uppercase;
+
+            margin-bottom: 13px;
+        }
+
+        .section-title {
+            font-family: "Space Grotesk";
+
+            font-size: clamp(35px, 5vw, 50px);
+
+            letter-spacing: -3px;
+
+            margin-bottom: 40px;
+        }
+
+        .section-description {
+            color: #777;
+
+            max-width: 650px;
+
+            line-height: 1.7;
+
+            font-size: 14px;
+
+            margin-top: -20px;
+
+            margin-bottom: 35px;
+        }
+
+
+        /* =========================
+           SCANNER
+        ========================= */
+
+        .scanner {
+            display: grid;
+
+            grid-template-columns:
+                1.1fr .9fr;
+
+            gap: 15px;
+        }
+
+        .panel {
+            background:
+                linear-gradient(
+                    145deg,
+                    #111,
+                    #090909
+                );
+
+            border: 1px solid var(--border);
+
+            border-radius: 24px;
+
+            padding: 30px;
+        }
+
+        .panel h3 {
+            font-family: "Space Grotesk";
+
+            font-size: 21px;
+
+            margin-bottom: 7px;
+        }
+
+        .panel-description {
+            color: #666;
+
+            font-size: 12px;
+
+            line-height: 1.6;
+
+            margin-bottom: 25px;
+        }
+
+
+        /* INPUTS */
+
+        .input-label {
+            display: block;
+
+            color: #888;
+
+            font-size: 11px;
+
+            margin-bottom: 7px;
+        }
+
+        .main-inputs {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 12px;
+        }
+
+        input {
+            width: 100%;
+
+            padding: 14px;
+
+            border-radius: 11px;
+
+            border: 1px solid #242424;
+
+            background: #070707;
+
+            color: white;
+
+            outline: none;
+
+            font-family: inherit;
+        }
+
+        input:focus {
+            border-color: var(--orange);
+        }
+
+
+        /* ADVANCED */
+
+        .advanced-toggle {
+            width: 100%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-top: 15px;
+
+            padding: 13px 15px;
+
+            background: #090909;
+
+            border: 1px solid #202020;
+
+            border-radius: 11px;
+
+            color: #bbb;
+
+            cursor: pointer;
+
+            text-align: left;
+        }
+
+        .advanced-toggle span:last-child {
+            color: var(--orange);
+
+            font-size: 18px;
+        }
+
+        .advanced {
+            display: none;
+
+            margin-top: 12px;
+
+            padding: 15px;
+
+            background: #080808;
+
+            border: 1px solid #1d1d1d;
+
+            border-radius: 12px;
+        }
+
+        .advanced.open {
+            display: block;
+        }
+
+        .feature-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 8px;
+        }
+
+        .feature-grid input {
+            padding: 10px;
+
+            font-size: 11px;
+        }
+
+
+        /* THRESHOLD */
+
+        .threshold-box {
+            margin-top: 20px;
+
+            padding: 18px;
+
+            border: 1px solid #202020;
+
+            border-radius: 14px;
+
+            background: #090909;
+        }
+
+        .threshold-header {
+            display: flex;
+
+            justify-content: space-between;
+
+            color: #aaa;
+
+            font-size: 12px;
+
+            margin-bottom: 12px;
+        }
+
+        #thresholdValue {
+            color: var(--orange);
+
+            font-weight: 600;
+        }
+
+        input[type="range"] {
+            appearance: none;
+
+            height: 4px;
+
+            padding: 0;
+
+            border: none;
+
+            background: #2a2a2a;
+
+            border-radius: 5px;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            appearance: none;
+
+            width: 17px;
+
+            height: 17px;
+
+            border-radius: 50%;
+
+            background: var(--orange);
+
+            cursor: pointer;
+        }
+
+        .threshold-help {
+            color: #555;
+
+            font-size: 10px;
+
+            line-height: 1.5;
+
+            margin-top: 10px;
+        }
+
+        .scan-button {
+            width: 100%;
+
+            margin-top: 15px;
+
+            padding: 16px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff7920,
+                    #ff4d00
+                );
+
+            color: white;
+
+            font-weight: 600;
+
+            cursor: pointer;
+        }
+
+        .scan-button:disabled {
+            opacity: 0.6;
+
+            cursor: wait;
+        }
+
+
+        /* =========================
+           RESULT
+        ========================= */
+
+        .result-panel {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            min-height: 500px;
+        }
+
+        .result-content {
+            width: 100%;
+
+            text-align: center;
+        }
+
+        .risk-circle {
+            width: 185px;
+
+            height: 185px;
+
+            margin: auto;
+
+            border-radius: 50%;
+
+            background:
+                conic-gradient(
+                    var(--orange) 0% 87%,
+                    #242424 87% 100%
+                );
+
+            display: grid;
+
+            place-items: center;
+
+            position: relative;
+
+            box-shadow:
+                0 0 60px
+                rgba(255,80,0,0.13);
+        }
+
+        .risk-circle::after {
+            content: "";
+
+            position: absolute;
+
+            inset: 12px;
+
+            border-radius: 50%;
+
+            background: #0b0b0b;
+        }
+
+        .risk-score {
+            position: relative;
+
+            z-index: 2;
+
+            font-family: "Space Grotesk";
+
+            font-size: 38px;
+
+            font-weight: 600;
+        }
+
+        .risk-status {
+            margin-top: 20px;
+
+            font-family: "Space Grotesk";
+
+            font-size: 21px;
+
+            font-weight: 600;
+
+            color: var(--orange-light);
+        }
+
+        .risk-description {
+            color: #666;
+
+            font-size: 11px;
+
+            margin-top: 7px;
+        }
+
+        .result-details {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 7px;
+
+            margin-top: 25px;
+        }
+
+        .result-detail {
+            padding: 12px 5px;
+
+            background: #090909;
+
+            border: 1px solid #1c1c1c;
+
+            border-radius: 10px;
+        }
+
+        .result-detail strong {
+            display: block;
+
+            font-size: 12px;
+
+            color: #ddd;
+        }
+
+        .result-detail span {
+            display: block;
+
+            font-size: 9px;
+
+            color: #555;
+
+            margin-top: 4px;
+        }
+
+        .error-message {
+            display: none;
+
+            color: #ff5c5c;
+
+            background: rgba(255,0,0,0.06);
+
+            border: 1px solid rgba(255,0,0,0.15);
+
+            padding: 12px;
+
+            border-radius: 10px;
+
+            font-size: 11px;
+
+            margin-top: 15px;
+        }
+
+
+        /* =========================
+           CSV
+        ========================= */
+
+        .csv-card {
+            padding: 45px;
+
+            text-align: center;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #111,
+                    #080808
+                );
+
+            border: 1px solid var(--border);
+
+            border-radius: 25px;
+        }
+
+        .upload-icon {
+            width: 60px;
+
+            height: 60px;
+
+            margin: auto auto 20px;
+
+            border-radius: 50%;
+
+            display: grid;
+
+            place-items: center;
+
+            background:
+                rgba(255,100,0,0.09);
+
+            color: var(--orange);
+
+            font-size: 25px;
+        }
+
+        .csv-card h3 {
+            font-family: "Space Grotesk";
+
+            font-size: 25px;
+
+            margin-bottom: 10px;
+        }
+
+        .csv-card p {
+            color: #666;
+
+            font-size: 12px;
+
+            max-width: 500px;
+
+            margin: auto auto 25px;
+
+            line-height: 1.6;
+        }
+
+        .file-button {
+            display: inline-block;
+
+            padding: 13px 20px;
+
+            border: 1px solid #292929;
+
+            border-radius: 11px;
+
+            cursor: pointer;
+
+            font-size: 12px;
+
+            transition: .2s;
+        }
+
+        .file-button:hover {
+            border-color: var(--orange);
+        }
+
+
+        /* =========================
+           MODELS
+        ========================= */
+
+        .models {
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 15px;
+        }
+
+        .model-card {
+            background: #0c0c0c;
+
+            border: 1px solid var(--border);
+
+            border-radius: 20px;
+
+            padding: 27px;
+        }
+        /* =========================
+   MODEL INFORMATION
+========================= */
+
+.model-about {
+    margin-top: 24px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+}
+
+.model-about-label {
+    color: var(--orange);
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.model-about p {
+    color: #777;
+    font-size: 11px;
+    line-height: 1.7;
+    margin: 0 0 12px;
+}
+
+.model-resource {
+    display: inline-block;
+    color: var(--orange);
+    font-size: 10px;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+}
+
+.model-resource:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================
+   DATASET INFORMATION
+========================= */
+
+.dataset-info {
+    margin-top: 15px;
+    padding: 24px;
+    background: #0c0c0c;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+}
+
+.dataset-info-label {
+    color: var(--orange);
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.dataset-info h3 {
+    font-family: "Space Grotesk";
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.dataset-info p {
+    color: #777;
+    font-size: 11px;
+    line-height: 1.7;
+    margin: 0;
+}
+
+.dataset-stats {
+    grid-template-columns: 1fr;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.dataset-stat {
+    padding: 14px;
+    background: #111;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+}
+
+.dataset-stat strong {
+    display: block;
+    font-family: "Space Grotesk";
+    font-size: 18px;
+    color: #eee;
+    margin-bottom: 4px;
+}
+
+.dataset-stat span {
+    color: #666;
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.dataset-source {
+    margin-top: 16px !important;
+    font-size: 10px !important;
+}
+
+        .model-header {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-bottom: 28px;
+        }
+
+        .model-name {
+            font-family: "Space Grotesk";
+
+            font-size: 20px;
+        }
+
+        .badge {
+            padding: 5px 10px;
+
+            border-radius: 20px;
+
+            background:
+                rgba(255,100,0,0.1);
+
+            color: var(--orange);
+
+            font-size: 9px;
+
+            letter-spacing: 1px;
+        }
+
+        .metric {
+            margin-bottom: 18px;
+        }
+
+        .metric-row {
+            display: flex;
+
+            justify-content: space-between;
+
+            color: #888;
+
+            font-size: 11px;
+
+            margin-bottom: 7px;
+        }
+
+        .bar {
+            height: 5px;
+
+            background: #202020;
+
+            border-radius: 5px;
+
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #ff4d00,
+                    #ff9b47
+                );
+        }
+
+
+        /* =========================
+           TRADEOFF
+        ========================= */
+
+        .tradeoff {
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 15px;
+        }
+
+        .trade-card {
+            padding: 30px;
+
+            border-radius: 20px;
+
+            background: #0c0c0c;
+
+            border: 1px solid var(--border);
+        }
+
+        .trade-card h3 {
+            font-family: "Space Grotesk";
+
+            margin-bottom: 15px;
+        }
+
+        .trade-card p {
+            color: #777;
+
+            line-height: 1.7;
+
+            font-size: 13px;
+        }
+
+        .highlight {
+            color: var(--orange-light);
+        }
+
+
+        /* =========================
+           FEATURES
+        ========================= */
+
+        .system-features {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 12px;
+        }
+
+        .feature-card {
+            padding: 25px;
+
+            border-radius: 18px;
+
+            background:
+                rgba(255,255,255,0.03);
+
+            border: 1px solid var(--border);
+        }
+
+        .feature-icon {
+            color: var(--orange);
+
+            font-size: 22px;
+
+            margin-bottom: 15px;
+        }
+
+        .feature-card h3 {
+            font-family: "Space Grotesk";
+
+            font-size: 16px;
+
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            color: #666;
+
+            font-size: 11px;
+
+            line-height: 1.7;
+        }
+
+
+        /* =========================
+           ARCHITECTURE
+        ========================= */
+
+        .architecture {
+            padding: 35px;
+
+            border-radius: 23px;
+
+            border: 1px solid var(--border);
+
+            background: #090909;
+
+            overflow-x: auto;
+        }
+
+        .architecture-flow {
+            min-width: 650px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 12px;
+        }
+
+        .architecture-box {
+            padding: 17px 15px;
+
+            border: 1px solid #292929;
+
+            background: #111;
+
+            border-radius: 12px;
+
+            text-align: center;
+
+            font-size: 11px;
+
+            min-width: 105px;
+        }
+
+        .architecture-box strong {
+            display: block;
+
+            color: white;
+
+            margin-bottom: 5px;
+        }
+
+        .architecture-box span {
+            color: #555;
+
+            font-size: 9px;
+        }
+
+        .arrow {
+            color: var(--orange);
+
+            font-size: 20px;
+        }
+
+
+        /* =========================
+           LIMITATIONS
+        ========================= */
+
+        .limitations {
+            padding: 30px;
+
+            border-radius: 20px;
+
+            border: 1px solid
+                rgba(255,100,0,0.15);
+
+            background:
+                rgba(255,100,0,0.035);
+        }
+
+        .limitations h3 {
+            font-family: "Space Grotesk";
+
+            margin-bottom: 13px;
+        }
+
+        .limitations p {
+            color: #777;
+
+            line-height: 1.7;
+
+            font-size: 12px;
+        }
+
+
+        /* =========================
+           CTA
+        ========================= */
+
+        .cta {
+            width: min(850px, calc(100% - 40px));
+
+            margin: auto;
+
+            text-align: center;
+
+            padding: 130px 0;
+        }
+
+        .cta h2 {
+            font-family: "Space Grotesk";
+
+            font-size: clamp(42px, 7vw, 75px);
+
+            letter-spacing: -5px;
+
+            line-height: 1;
+        }
+
+        .cta h2 span {
+            color: var(--orange);
+        }
+
+        .cta p {
+            color: #666;
+
+            max-width: 500px;
+
+            margin: 25px auto;
+
+            font-size: 13px;
+
+            line-height: 1.7;
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            width: min(1000px, calc(100% - 40px));
+
+            margin: auto;
+
+            border-top: 1px solid var(--border);
+
+            padding: 30px 0;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            color: #444;
+
+            font-size: 10px;
+        }
+
+        /* =========================
+   HELP BUTTON
+========================= */
+
+.help-button {
+
+    position: fixed;
+
+    right: 25px;
+
+    bottom: 25px;
+
+    width: 48px;
+
+    height: 48px;
+
+    border-radius: 50%;
+
+    border: 1px solid rgba(255,255,255,0.15);
+
+    background:
+        rgba(18,18,18,0.92);
+
+    backdrop-filter: blur(12px);
+
+    color: white;
+
+    font-family: "Space Grotesk";
+
+    font-size: 20px;
+
+    cursor: pointer;
+
+    z-index: 900;
+
+    box-shadow:
+        0 10px 40px
+        rgba(0,0,0,0.4);
+
+    transition: 0.25s;
+}
+
+.help-button:hover {
+
+    background: var(--orange);
+
+    border-color: var(--orange);
+
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 10px 40px
+        rgba(255,90,0,0.3);
+}
+
+
+/* =========================
+   HELP OVERLAY
+========================= */
+
+.help-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    display: none;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    background:
+        rgba(0,0,0,0.78);
+
+    backdrop-filter: blur(8px);
+
+    z-index: 1000;
+
+    animation: fadeIn 0.2s ease;
+}
+
+.help-overlay.active {
+
+    display: flex;
+}
+
+
+/* =========================
+   HELP MODAL
+========================= */
+
+.help-modal {
+
+    width: min(650px, 100%);
+
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    position: relative;
+
+    padding: 35px;
+
+    border-radius: 25px;
+
+    border: 1px solid
+        rgba(255,255,255,0.12);
+
+    background:
+        linear-gradient(
+            145deg,
+            #141414,
+            #090909
+        );
+
+    box-shadow:
+        0 30px 100px
+        rgba(0,0,0,0.7);
+
+    animation: modalIn 0.25s ease;
+}
+
+.help-modal h2 {
+
+    font-family: "Space Grotesk";
+
+    font-size: 32px;
+
+    letter-spacing: -2px;
+
+    margin-bottom: 10px;
+}
+
+.help-intro {
+
+    color: #777;
+
+    font-size: 13px;
+
+    line-height: 1.7;
+
+    margin-bottom: 28px;
+}
+
+
+/* CLOSE BUTTON */
+
+.help-close {
+
+    position: absolute;
+
+    top: 18px;
+
+    right: 18px;
+
+    width: 35px;
+
+    height: 35px;
+
+    border-radius: 50%;
+
+    border: 1px solid #292929;
+
+    background: #111;
+
+    color: #aaa;
+
+    font-size: 22px;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.help-close:hover {
+
+    background: white;
+
+    color: black;
+}
+
+
+/* =========================
+   HELP STEPS
+========================= */
+
+.help-steps {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+}
+
+.help-step {
+
+    display: grid;
+
+    grid-template-columns: 45px 1fr;
+
+    gap: 15px;
+
+    padding: 17px;
+
+    border-radius: 14px;
+
+    background: #0b0b0b;
+
+    border: 1px solid #1d1d1d;
+
+    transition: 0.2s;
+}
+
+.help-step:hover {
+
+    border-color:
+        rgba(255,100,0,0.25);
+}
+
+.step-number {
+
+    color: var(--orange);
+
+    font-family: "Space Grotesk";
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    padding-top: 2px;
+}
+
+.help-step h3 {
+
+    font-family: "Space Grotesk";
+
+    font-size: 14px;
+
+    margin-bottom: 6px;
+}
+
+.help-step p {
+
+    color: #666;
+
+    font-size: 11px;
+
+    line-height: 1.65;
+}
+
+
+/* =========================
+   RESULT MEANING
+========================= */
+
+.meaning-box {
+
+    margin-top: 20px;
+
+    padding: 20px;
+
+    border-radius: 15px;
+
+    background:
+        rgba(255,255,255,0.025);
+
+    border: 1px solid #1e1e1e;
+}
+
+.meaning-box h3 {
+
+    font-family: "Space Grotesk";
+
+    font-size: 15px;
+
+    margin-bottom: 15px;
+}
+
+.meaning-row {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 12px;
+
+    margin-top: 12px;
+}
+
+.meaning-dot {
+
+    width: 9px;
+
+    height: 9px;
+
+    border-radius: 50%;
+
+    margin-top: 5px;
+
+    flex-shrink: 0;
+}
+
+.meaning-dot.low {
+
+    background: #777;
+
+    box-shadow:
+        0 0 12px
+        rgba(255,255,255,0.15);
+}
+
+.meaning-dot.high {
+
+    background: var(--orange);
+
+    box-shadow:
+        0 0 15px
+        rgba(255,90,0,0.5);
+}
+
+.meaning-row strong {
+
+    font-size: 11px;
+
+    color: #ddd;
+}
+
+.meaning-row p {
+
+    color: #666;
+
+    font-size: 10px;
+
+    margin-top: 3px;
+}
+
+
+/* =========================
+   HELP NOTE
+========================= */
+
+.help-note {
+
+    margin-top: 18px;
+
+    padding: 15px;
+
+    border-radius: 12px;
+
+    background:
+        rgba(255,100,0,0.045);
+
+    border: 1px solid
+        rgba(255,100,0,0.12);
+
+    color: #777;
+
+    font-size: 10px;
+
+    line-height: 1.6;
+}
+
+.help-note strong {
+
+    color: var(--orange-light);
+}
+
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+@keyframes fadeIn {
+
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+
+}
+
+@keyframes modalIn {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(15px)
+            scale(0.98);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+
+    }
+
+}
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media(max-width: 800px) {
+
+            .nav-links {
+                display: none;
+            }
+            
+
+            .stats {
+                grid-template-columns:
+                    1fr 1fr;
+            }
+
+            .scanner {
+                grid-template-columns: 1fr;
+            }
+
+            .result-panel {
+                min-height: 350px;
+            }
+
+            .models {
+                grid-template-columns: 1fr;
+            }
+
+            .tradeoff {
+                grid-template-columns: 1fr;
+            }
+
+            .system-features {
+                grid-template-columns: 1fr;
+            }
+
+            .visual {
+                height: 240px;
+            }
+            .visual {
+    height: 240px;
+    margin-bottom: 30px;
+}
+
+section {
+    padding-top: 50px;
+}
+
+            .shield {
+                width: 95px;
+
+                height: 110px;
+
+                right: 12%;
+            }
+            .stats {
+    display: none;
+}
+
+        }
+
+        @media(max-width: 500px) {
+
+            .hero {
+                padding-top: 55px;
+            }
+
+            .hero h1 {
+                letter-spacing: -4px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .main-inputs {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .result-details {
+                grid-template-columns:
+                    1fr 1fr 1fr;
+            }
+
+            .panel {
+                padding: 20px;
+            }
+
+            footer {
+                flex-direction: column;
+
+                gap: 8px;
+            }
+
+        }
+        /* =========================
+   IMPROVED TEXT VISIBILITY
+========================= */
+
+/* Description under the main heading */
+.panel-description {
+    font-size: 14px !important;
+    line-height: 1.7 !important;
+    color: #858585 !important;
+}
+
+
+/* Input labels */
+.input-label {
+    font-size: 13px !important;
+    color: #a0a0a0 !important;
+}
+
+
+/* Small explanations under inputs */
+.input-help {
+    font-size: 11px !important;
+    line-height: 1.5 !important;
+    color: #666 !important;
+}
+
+
+/* "New here?" section */
+.demo-heading {
+    font-size: 12px !important;
+}
+
+
+.demo-heading-muted {
+    font-size: 12px !important;
+    color: #777 !important;
+}
+
+
+/* Demo buttons */
+.demo-button {
+    font-size: 12px !important;
+}
+
+
+/* Demo status text */
+.demo-status {
+    font-size: 11px !important;
+    color: #666 !important;
+}
+
+
+/* Advanced features */
+.feature-label,
+.advanced-label {
+    font-size: 13px !important;
+}
+.privacy-notice {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+
+    margin-top: 12px;
+    padding: 13px 15px;
+
+    border-radius: 12px;
+
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid #1d1d1d;
+}
+
+.privacy-icon {
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.privacy-notice strong {
+    display: block;
+
+    font-size: 11px;
+    color: #aaa;
+
+    margin-bottom: 4px;
+}
+
+.privacy-notice p {
+    margin: 0;
+
+    font-size: 10px;
+    line-height: 1.5;
+
+    color: #666;
+}
+
+
+/* Threshold description */
+.threshold-description,
+.threshold-help {
+    font-size: 11px !important;
+    line-height: 1.6 !important;
+    color: #666 !important;
+}
+
+
+/* Help / question mark modal */
+.help-intro {
+    font-size: 13px !important;
+}
+
+
+.help-step p {
+    font-size: 12px !important;
+    line-height: 1.65 !important;
+}
+
+
+.help-step h3 {
+    font-size: 15px !important;
+}
+
+
+.help-note {
+    font-size: 11px !important;
+    line-height: 1.6 !important;
+}
+
+
+/* Result panel supporting text */
+.result-description,
+.result-subtitle {
+    font-size: 12px !important;
+    color: #707070 !important;
+}
+
+
+/* Model / threshold / decision labels */
+.metric-label {
+    font-size: 11px !important;
+}
+
+
+/* Mobile */
+@media (max-width: 700px) {
+
+    .panel-description {
+        font-size: 13px !important;
+    }
+
+    .input-help {
+        font-size: 10px !important;
+    }
+
+    .demo-button {
+        font-size: 11px !important;
+    }
+
+    .demo-status {
+        font-size: 10px !important;
+    }
+
+}
+    /* =========================================
+   HELP BUTTON
+========================================= */
+
+.help-button {
+    position: fixed;
+    right: 28px;
+    bottom: 28px;
+
+    width: 52px;
+    height: 52px;
+
+    border-radius: 50%;
+    border: 1px solid #333;
+
+    background: #111;
+    color: white;
+
+    font-size: 22px;
+    font-weight: 600;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    z-index: 99999;
+
+    transition: 0.2s ease;
+}
+
+.help-button:hover {
+    background: #ff6500;
+    border-color: #ff6500;
+    transform: translateY(-3px);
+}
+
+
+/* =========================================
+   HELP OVERLAY
+========================================= */
+
+.help-overlay {
+    position: fixed;
+    inset: 0;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(0, 0, 0, 0.8);
+
+    backdrop-filter: blur(8px);
+
+    z-index: 99998;
+}
+
+.help-overlay.active {
+    display: flex;
+}
+
+
+/* =========================================
+   HELP MODAL
+========================================= */
+
+.help-modal {
+    position: relative;
+
+    width: min(600px, 100%);
+    max-height: 85vh;
+
+    overflow-y: auto;
+
+    padding: 32px;
+
+    border-radius: 20px;
+
+    background: #111;
+
+    border: 1px solid #2b2b2b;
+
+    box-shadow:
+        0 30px 100px rgba(0,0,0,0.8);
+}
+
+.help-modal h2 {
+    margin: 10px 0 8px;
+
+    font-size: 28px;
+}
+
+.help-intro {
+    color: #888;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+
+    margin-bottom: 20px;
+}
+
+
+/* CLOSE BUTTON */
+
+.help-close {
+    position: absolute;
+
+    top: 16px;
+    right: 16px;
+
+    width: 36px;
+    height: 36px;
+
+    border-radius: 50%;
+
+    border: 1px solid #333;
+
+    background: #191919;
+
+    color: #aaa;
+
+    font-size: 22px;
+
+    cursor: pointer;
+}
+
+
+/* HELP STEPS */
+
+.help-step {
+    padding: 15px;
+
+    margin-top: 10px;
+
+    border-radius: 12px;
+
+    background: #0b0b0b;
+
+    border: 1px solid #202020;
+}
+
+.help-step strong {
+    font-size: 13px;
+
+    color: #ddd;
+}
+
+.help-step p {
+    margin: 6px 0 0;
+
+    color: #777;
+
+    font-size: 11px;
+
+    line-height: 1.6;
+}
+
+
+/* NOTE */
+
+.help-note {
+    margin-top: 15px;
+
+    padding: 14px;
+
+    border-radius: 10px;
+
+    background: rgba(255, 101, 0, 0.05);
+
+    border: 1px solid rgba(255, 101, 0, 0.15);
+
+    color: #777;
+
+    font-size: 10px;
+
+    line-height: 1.6;
+}
+
+.help-note strong {
+    color: #ff6500;
+}
+/* =========================================================
+   FINAL UI CLEANUP
+   ========================================================= */
+
+/* ---------- ADVANCED ANALYSIS ---------- */
+
+.advanced {
+    padding: 14px;
+    margin-top: 10px;
+}
+
+.advanced-instructions {
+    padding: 14px 15px;
+    margin-bottom: 12px;
+
+    background: rgba(255,255,255,0.018);
+    border: 1px solid #1b1b1b;
+    border-radius: 10px;
+
+    color: #777;
+    font-size: 11px;
+    line-height: 1.55;
+}
+
+.advanced-instructions strong {
+    color: #ddd;
+}
+
+.advanced-instructions > strong {
+    display: block;
+    margin-bottom: 6px;
+
+    font-family: "Space Grotesk";
+    font-size: 13px;
+}
+
+.advanced-instructions p {
+    margin: 0 0 7px;
+}
+
+.advanced-instructions p:last-of-type {
+    margin-bottom: 9px;
+}
+
+/* Compact example */
+.advanced-example {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px 12px;
+
+    margin-top: 8px;
+    padding: 9px 11px;
+
+    background: #050505;
+    border: 1px solid #181818;
+    border-radius: 8px;
+
+    color: #666;
+    font-size: 10px;
+    line-height: 1.45;
+}
+
+.advanced-example strong {
+    grid-column: 1 / -1;
+    color: #aaa;
+    margin-bottom: 2px;
+}
+
+/* Feature inputs */
+.feature-grid {
+    gap: 7px;
+}
+
+.feature-grid input {
+    padding: 9px 10px;
+    min-height: 36px;
+    font-size: 10px;
+}
+
+
+/* ---------- MAIN TRANSACTION SCANNER ---------- */
+
+.panel-description {
+    margin-bottom: 20px !important;
+}
+
+.main-inputs {
+    gap: 10px;
+}
+
+.input-help {
+    margin-top: 5px !important;
+    font-size: 10px !important;
+    line-height: 1.4 !important;
+}
+
+/* Small note below Amount + Time */
+.main-inputs + .input-help {
+    margin-top: 10px !important;
+    padding: 7px 9px;
+
+    border-left: 2px solid #252525;
+    color: #555 !important;
+}
+
+
+/* ---------- QUICK DEMO ---------- */
+
+.demo-section {
+    margin-top: 14px;
+    padding: 13px;
+    border-radius: 12px;
+}
+
+.demo-heading {
+    margin-bottom: 9px;
+    font-size: 11px !important;
+    line-height: 1.4;
+}
+
+.demo-heading-muted {
+    font-size: 11px !important;
+}
+
+.demo-buttons {
+    gap: 7px;
+}
+
+.demo-button {
+    padding: 10px 8px;
+    font-size: 11px !important;
+}
+
+.demo-status {
+    margin-top: 8px;
+    font-size: 9px !important;
+}
+
+
+/* ---------- PRIVACY / FEATURE INFO ---------- */
+
+.privacy-notice {
+    margin-top: 10px;
+    padding: 11px 13px;
+}
+
+.privacy-notice strong {
+    font-size: 11px;
+}
+
+.privacy-notice p {
+    font-size: 9px;
+    line-height: 1.45;
+}
+
+
+/* ---------- CSV UPLOAD ---------- */
+
+.csv-card {
+    padding: 30px 32px;
+    border-radius: 20px;
+}
+
+.upload-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 13px;
+    font-size: 21px;
+}
+
+.csv-card h3 {
+    font-size: 22px;
+    margin-bottom: 7px;
+}
+
+.csv-card > p {
+    max-width: 600px;
+    margin-bottom: 15px;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+/* Required CSV format box */
+.dataset-info {
+    max-width: 850px;
+    margin: 12px auto 14px;
+    padding: 15px 18px;
+
+    background: #090909;
+    border: 1px solid #242424;
+    border-radius: 14px;
+
+    text-align: center;
+}
+
+.dataset-info strong {
+    display: block;
+    margin-bottom: 5px;
+
+    color: #ddd;
+    font-family: "Space Grotesk";
+    font-size: 14px;
+}
+
+.dataset-info p {
+    margin: 4px auto;
+    font-size: 10px;
+    line-height: 1.45;
+}
+
+.dataset-info code {
+    display: block;
+
+    margin: 7px auto;
+    padding: 7px 10px;
+
+    width: fit-content;
+    max-width: 100%;
+
+    background: #050505;
+    border: 1px solid #1c1c1c;
+    border-radius: 7px;
+
+    color: #aaa;
+    font-size: 10px;
+    overflow-x: auto;
+}
+
+
+/* ---------- FILE BUTTON ---------- */
+
+.file-button {
+    padding: 11px 18px;
+    font-size: 11px;
+}
+
+#csvStatus {
+    margin-top: 10px !important;
+    font-size: 10px !important;
+    color: #555 !important;
+}
+
+
+/* ---------- MOBILE ---------- */
+
+@media (max-width: 800px) {
+
+    .advanced-instructions {
+        font-size: 10px;
+        line-height: 1.5;
+    }
+
+    .advanced-example {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 4px 10px;
+    }
+
+    .feature-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .demo-heading {
+        flex-wrap: wrap;
+    }
+
+    .csv-card {
+        padding: 25px 18px;
+    }
+
+    .dataset-info {
+        padding: 13px 12px;
+    }
+
+    .dataset-info code {
+        font-size: 9px;
+    }
+}   
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     NAVIGATION
+========================= -->
+
+<nav>
+
+    <div class="logo">
+    <img src="assets/fraudguard-logo.png" alt="FraudGuard Logo">
+    <span>FraudGuard</span>
+</div>
+
+    <div class="nav-links">
+
+        <a href="#scanner">
+            Scanner
+        </a>
+
+        <a href="#models">
+            Models
+        </a>
+
+        <a href="#architecture">
+            Architecture
+        </a>
+
+        <a href="#about">
+            About
+        </a>
+
+    </div>
+
+    <a
+        class="github-button"
+        href="https://github.com/Piyush-not/Credit-Card-Fraud-Detection-System"
+        target="_blank"
+    >
+        GitHub ↗
+    </a>
+
+</nav>
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<header class="hero">
+
+    <div class="eyebrow">
+        Machine Learning · Fraud Intelligence
+    </div>
+
+    <h1>
+
+        Fraud doesn't look<br>
+
+        <span>like fraud.</span>
+
+    </h1>
+
+    <p class="hero-description">
+
+        FraudGuard uses machine learning to identify
+        suspicious credit-card transactions and assign
+        a probability-based risk score.
+
+    </p>
+
+    <div class="hero-buttons">
+
+        <button
+            class="primary-btn"
+            onclick="scrollToScanner()"
+        >
+            Analyze Transaction →
+        </button>
+
+        <button
+            class="secondary-btn"
+            onclick="scrollToModels()"
+        >
+            Explore Model
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- =========================
+     VISUAL
+========================= -->
+
+<div class="visual">
+
+    <div class="visual-text">
+        FRAUD
+    </div>
+
+    <div class="shield"></div>
+
+</div>
+
+
+<!-- =========================
+     STATS
+========================= -->
+
+<div class="stats">
+
+    <div class="stat">
+
+        <div class="stat-number">
+            284,807
+        </div>
+
+        <div class="stat-label">
+            TRANSACTIONS
+        </div>
+
+    </div>
+
+
+    <div class="stat">
+
+        <div class="stat-number">
+            492
+        </div>
+
+        <div class="stat-label">
+            FRAUD CASES
+        </div>
+
+    </div>
+
+
+    <div class="stat">
+
+        <div class="stat-number">
+            0.173%
+        </div>
+
+        <div class="stat-label">
+            FRAUD RATE
+        </div>
+
+    </div>
+
+
+    <div class="stat">
+
+        <div class="stat-number">
+            97.0%
+        </div>
+
+        <div class="stat-label">
+            RANDOM FOREST ROC-AUC
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     TRANSACTION SCANNER
+========================= -->
+
+<section id="scanner">
+
+    <div class="section-label">
+        Live Analysis
+    </div>
+
+    <div class="section-title">
+        Transaction Scanner
+    </div>
+
+    <p class="section-description">
+    Analyze a transaction using FraudGuard's trained Random Forest
+    model. Start with a real dataset example, or use Advanced
+    Analysis when you have the complete transaction features.
+    The system returns a fraud probability, risk level and
+    classification using your selected detection threshold.
+</p>
+
+
+    <div class="scanner">
+
+
+        <!-- INPUT PANEL -->
+
+        <div class="panel">
+
+            <h3>
+                Analyze a transaction
+            </h3>
+
+            <p class="panel-description">
+
+    New to fraud detection? Start with a real transaction
+    from the dataset below. For custom predictions, use
+    Advanced Analysis and provide the complete feature set.
+
+</p>
+
+
+            <div class="main-inputs">
+
+    <div>
+
+        <label class="input-label">
+            Transaction Amount
+        </label>
+
+        <input
+            id="Amount"
+            type="number"
+            step="any"
+            placeholder="125.50"
+        >
+
+        <div class="input-help">
+            The monetary value of the transaction.
+        </div>
+
+    </div>
+
+
+    <div>
+
+        <label class="input-label">
+            Transaction Time
+        </label>
+
+        <input
+            id="Time"
+            type="number"
+            step="any"
+            placeholder="406"
+        >
+
+        <div class="input-help">
+            Seconds elapsed since the first transaction.
+        </div>
+
+    </div>
+    <div class="input-help" style="margin-top:12px;">
+    Quick Demo loads the complete transaction automatically.
+    Amount and Time alone are not sufficient for the full
+    Random Forest model.
+</div>
+
+</div>
+<div class="demo-section">
+
+    <div class="demo-heading">
+    <span>Quick Demo Analysis</span>
+    <span class="demo-heading-muted">
+        Use a real transaction from the dataset
+    </span>
+</div>
+
+
+    <div class="demo-buttons">
+
+        <button
+            type="button"
+            class="demo-button"
+            onclick="loadDemoTransaction('legit')"
+        >
+            <span class="demo-dot legit"></span>
+            Try Legit Transaction
+        </button>
+
+
+        <button
+            type="button"
+            class="demo-button"
+            onclick="loadDemoTransaction('fraud')"
+        >
+            <span class="demo-dot fraud"></span>
+            Try Fraud Transaction
+        </button>
+
+    </div>
+
+
+    <div
+        class="demo-status"
+        id="demoStatus"
+    >
+        These examples use real transactions from the project's dataset.
+    </div>
+
+</div>
+
+
+            <!-- ADVANCED FEATURES -->
+<div class="privacy-notice">
+    <span class="privacy-icon">ℹ️</span>
+    <div>
+        <strong>About the Transaction Features</strong>
+        <p>
+            The trained model requires 30 input features:
+            Time, V1–V28 and Amount. V1–V28 are anonymized
+            PCA-transformed features from the dataset and
+            do not represent directly understandable fields
+            such as card number, merchant, location or
+            customer information.
+        </p>
+    </div>
+</div>
+
+            <button
+                class="advanced-toggle"
+                onclick="toggleAdvanced()"
+                type="button"
+            >
+
+                <span>
+                    Advanced Analysis · Full Feature Input
+                </span>
+
+                <span id="advancedIcon">
+                    +
+                </span>
+
+            </button>
+
+
+            <div
+    class="advanced"
+    id="advancedFeatures"
+>
+
+    <div class="advanced-instructions">
+
+        <strong>
+            Advanced Analysis Instructions
+        </strong>
+
+        <p>
+            This model was trained using the Kaggle Credit Card
+            Fraud Detection dataset. A complete prediction requires
+            all 30 input features:
+            <strong>Time, V1–V28 and Amount.</strong>
+        </p>
+
+        <p>
+            V1–V28 are anonymized PCA-transformed features.
+            They do not correspond directly to fields such as
+            card number, merchant, location or customer information.
+        </p>
+
+        <p>
+            If you have a transaction from the original dataset,
+            enter the feature values exactly as provided.
+            Do not invent or estimate V1–V28 values.
+        </p>
+
+        <div class="advanced-example">
+
+            <strong>Example:</strong>
+
+            <div>
+                Time = 406.0
+            </div>
+
+            <div>
+                V1 = -2.312
+            </div>
+
+            <div>
+                V2 = 1.951
+            </div>
+
+            <div>
+                V3 = -1.609
+            </div>
+
+            <div>
+                ...
+            </div>
+
+            <div>
+                V28 = 0.102
+            </div>
+
+            <div>
+                Amount = 149.62
+            </div>
+
+        </div>
+
+    </div>
+
+    <div
+        class="feature-grid"
+        id="featureGrid"
+    ></div>
+
+</div>
+
+
+            <!-- THRESHOLD -->
+
+            <div class="threshold-box">
+
+                <div class="threshold-header">
+
+                    <span>
+                        Detection Threshold
+                    </span>
+
+                    <span id="thresholdValue">
+                        50%
+                    </span>
+
+                </div>
+
+
+                <input
+                    id="threshold"
+                    type="range"
+                    min="10"
+                    max="90"
+                    value="50"
+                    step="1"
+                    style="width:100%"
+                    oninput="updateThreshold()"
+                >
+
+
+                <div class="threshold-help">
+
+                    Lower thresholds catch more potential
+                    fraud but may increase false positives.
+                    Higher thresholds reduce false alarms
+                    but may miss some fraud.
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="scan-button"
+                id="scanButton"
+                onclick="analyzeTransaction()"
+            >
+
+                Run Fraud Analysis →
+
+            </button>
+
+
+            <div
+                class="error-message"
+                id="errorMessage"
+            ></div>
+
+        </div>
+
+
+        <!-- RESULT PANEL -->
+
+        <div class="panel result-panel">
+
+            <div class="result-content">
+
+                <div
+                    class="risk-circle"
+                    id="riskCircle"
+                >
+
+                    <div
+                        class="risk-score"
+                        id="riskScore"
+                    >
+                        —
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="risk-status"
+                    id="riskStatus"
+                >
+                    AWAITING ANALYSIS
+                </div>
+
+
+                <div
+                    class="risk-description"
+                    id="riskDescription"
+                >
+                    Submit a transaction to receive a risk assessment.
+                </div>
+
+
+                <div class="result-details">
+
+                    <div class="result-detail">
+
+                        <strong id="resultModel">
+                            —
+                        </strong>
+
+                        <span>
+                            MODEL
+                        </span>
+
+                    </div>
+
+
+                    <div class="result-detail">
+
+                        <strong id="resultThreshold">
+                            —
+                        </strong>
+
+                        <span>
+                            THRESHOLD
+                        </span>
+
+                    </div>
+
+
+                    <div class="result-detail">
+
+                        <strong id="resultDecision">
+                            —
+                        </strong>
+
+                        <span>
+                            DECISION
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     CSV
+========================= -->
+
+<section>
+
+    <div class="section-label">
+        Batch Analysis
+    </div>
+
+    <div class="section-title">
+        Analyze an entire dataset.
+    </div>
+
+    <div class="csv-card">
+
+        <div class="upload-icon">
+            ↑
+        </div>
+
+        <h3>
+            Upload CSV
+        </h3>
+
+        <p>
+    Upload a transaction dataset to analyze multiple
+    transactions using the same trained Random Forest
+    pipeline used for individual predictions.
+</p>
+
+<div class="dataset-info">
+
+    <strong>
+        Required CSV format
+    </strong>
+
+    <p>
+        Your CSV should contain the following model features:
+    </p>
+
+    <code>
+        Time, V1, V2, V3, ... V28, Amount
+    </code>
+
+    <p>
+        A <strong>Class</strong> column may also be included
+        when evaluating transactions that already have known
+        fraud labels.
+    </p>
+
+</div>
+
+        <label class="file-button">
+
+            Choose CSV File
+
+            <input
+                id="csvFile"
+                type="file"
+                accept=".csv"
+                hidden
+                onchange="csvSelected()"
+            >
+
+        </label>
+
+        <p
+            id="csvStatus"
+            style="margin-top:15px;margin-bottom:0;"
+        >
+            Batch API connection will be added next.
+
+        </p>
+
+    </div>
+<div class="dataset-info">
+
+    <div class="dataset-info-label">
+        Training Dataset
+    </div>
+
+    <h3>
+        Credit Card Fraud Detection Dataset
+    </h3>
+
+    <p>
+        FraudGuard uses the well-known Kaggle Credit Card Fraud
+        Detection dataset. It contains anonymized credit card
+        transactions and is highly imbalanced, meaning genuine
+        transactions greatly outnumber fraudulent ones.
+    </p>
+
+    <div class="dataset-stats">
+
+        <div class="dataset-stat">
+            <strong>284,807</strong>
+            <span>Transactions</span>
+        </div>
+
+        <div class="dataset-stat">
+            <strong>492</strong>
+            <span>Fraud Cases</span>
+        </div>
+
+        <div class="dataset-stat">
+            <strong>0.173%</strong>
+            <span>Fraud Rate</span>
+        </div>
+
+    </div>
+
+    <p class="dataset-source">
+    Source: Kaggle · Credit Card Fraud Detection ·
+    <a
+        href="https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud"
+        target="_blank"
+        rel="noopener"
+    >
+        View dataset →
+    </a>
+</p>
+
+</div>
+</section>
+
+
+<!-- =========================
+     MODEL PERFORMANCE
+========================= -->
+
+<section id="models">
+
+    <div class="section-label">
+        Machine Learning
+    </div>
+
+    <div class="section-title">
+        Model Performance
+    </div>
+
+
+    <div class="models">
+
+
+        <!-- RANDOM FOREST -->
+
+        <div class="model-card">
+
+            <div class="model-header">
+
+                <div class="model-name">
+                    Random Forest
+                </div>
+
+                <div class="badge">
+                    SELECTED MODEL
+                </div>
+
+            </div>
+
+
+            <div class="metric">
+
+                <div class="metric-row">
+
+                    <span>
+                        ROC-AUC
+                    </span>
+
+                    <span>
+                        97.0%
+                    </span>
+
+                </div>
+
+                <div class="bar">
+
+                    <div
+                        class="bar-fill"
+                        style="width:97%"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+            <div class="metric">
+
+                <div class="metric-row">
+
+                    <span>
+                        PR-AUC
+                    </span>
+
+                    <span>
+                        79.2%
+                    </span>
+
+                </div>
+
+                <div class="bar">
+
+                    <div
+                        class="bar-fill"
+                        style="width:79.2%"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+            <div class="metric">
+
+                <div class="metric-row">
+
+                    <span>
+                        Precision
+                    </span>
+
+                    <span>
+                        86.1%
+                    </span>
+
+                </div>
+
+                <div class="bar">
+
+                    <div
+                        class="bar-fill"
+                        style="width:86.1%"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+            <div class="metric">
+
+                <div class="metric-row">
+
+                    <span>
+                        Recall
+                    </span>
+
+                    <span>
+                        75.0%
+                    </span>
+
+                </div>
+
+                <div class="bar">
+
+                    <div
+                        class="bar-fill"
+                        style="width:75%"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+            <div class="metric">
+
+                <div class="metric-row">
+
+                    <span>
+                        F1 Score
+                    </span>
+
+                    <span>
+                        80.1%
+                    </span>
+
+                </div>
+
+                <div class="bar">
+
+                    <div
+                        class="bar-fill"
+                        style="width:80.1%"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+            <div class="metric">
+
+                <div class="metric-row">
+
+                    <span>
+                        False Positives
+                    </span>
+
+                    <span>
+                        18
+                    </span>
+
+                </div>
+
+            </div>
+            <div class="model-about">
+
+    <div class="model-about-label">
+        About this model
+    </div>
+
+    <p>
+        Random Forest combines multiple decision trees to make
+        a stronger classification. Each tree learns from a
+        different sample of the data and considers a random
+        subset of features. For fraud detection, this helps
+        capture complex relationships between transaction
+        features and fraud risk.
+    </p>
+
+    <a
+        class="model-resource"
+        href="https://scikit-learn.org/stable/modules/ensemble.html"
+        target="_blank"
+        rel="noopener"
+    >
+        Read more: Scikit-learn Random Forest →
+    </a>
+
+</div>
+
+        </div>
+
+
+        <!-- LOGISTIC REGRESSION -->
+
+        <div class="model-card">
+
+            <div class="model-header">
+
+                <div class="model-name">
+                    Logistic Regression
+                </div>
+
+                <div class="badge">
+                    BASELINE
+                </div>
+
+            </div>
+
+
+            <div class="metric">
+
+                <div class="metric-row">
+
+                    <span>
+                        ROC-AUC
+                    </span>
+
+                    <span>
+                        96.8%
+                    </span>
+
+                </div>
+
+                <div class="bar">
+
+                    <div
+                        class="bar-fill"
+                        style="width:96.8%"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+            <div class="metric">
+
+                <div class="metric-row">
+
+                    <span>
+                        PR-AUC
+                    </span>
+
+                    <span>
+                        70.0%
+                    </span>
+
+                </div>
+
+                <div class="bar">
+
+                    <div
+                        class="bar-fill"
+                        style="width:70%"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+            <div class="metric">
+
+                <div class="metric-row">
+
+                    <span>
+                        Precision
+                    </span>
+
+                    <span>
+                        6.7%
+                    </span>
+
+                </div>
+
+                <div class="bar">
+
+                    <div
+                        class="bar-fill"
+                        style="width:6.7%"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+            <div class="metric">
+
+                <div class="metric-row">
+
+                    <span>
+                        Recall
+                    </span>
+
+                    <span>
+                        87.8%
+                    </span>
+
+                </div>
+
+                <div class="bar">
+
+                    <div
+                        class="bar-fill"
+                        style="width:87.8%"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+            <div class="metric">
+
+                <div class="metric-row">
+
+                    <span>
+                        F1 Score
+                    </span>
+
+                    <span>
+                        12.5%
+                    </span>
+
+                </div>
+
+                <div class="bar">
+
+                    <div
+                        class="bar-fill"
+                        style="width:12.5%"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+            <div class="metric">
+
+                <div class="metric-row">
+
+                    <span>
+                        False Positives
+                    </span>
+
+                    <span>
+                        1,806
+                    </span>
+
+                </div>
+
+            </div>
+            <div class="model-about">
+
+    <div class="model-about-label">
+        About this model
+    </div>
+
+    <p>
+        Logistic Regression is a linear classification model
+        that estimates the probability of a transaction belonging
+        to the fraud class. It provides a simple and interpretable
+        baseline, making it useful for comparing how much the
+        more flexible Random Forest improves fraud detection.
+    </p>
+
+    <a
+        class="model-resource"
+        href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html"
+        target="_blank"
+        rel="noopener"
+    >
+        Read more: Scikit-learn Logistic Regression →
+    </a>
+
+</div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     MODEL TRADEOFF
+========================= -->
+
+<section>
+
+    <div class="section-label">
+        Model Selection
+    </div>
+
+    <div class="section-title">
+        Why Random Forest?
+    </div>
+
+
+    <div class="tradeoff">
+
+        <div class="trade-card">
+
+            <h3>
+                Logistic Regression
+            </h3>
+
+            <p>
+
+                Logistic Regression achieved higher fraud
+                recall, identifying more of the fraudulent
+                transactions. However, it generated
+                <span class="highlight">
+                    1,806 false positives
+                </span>,
+                making it less practical when false alerts
+                are costly.
+
+            </p>
+
+        </div>
+
+
+        <div class="trade-card">
+
+            <h3>
+                Random Forest
+            </h3>
+
+            <p>
+
+                Random Forest achieved slightly higher
+                overall discrimination while dramatically
+                reducing false positives to just
+                <span class="highlight">
+                    18
+                </span>.
+                This provided a much stronger precision/F1
+                trade-off for the selected operating point.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     SYSTEM FEATURES
+========================= -->
+
+<section id="about">
+
+    <div class="section-label">
+        Detection Strategy
+    </div>
+
+    <div class="section-title">
+        Built for imbalanced data.
+    </div>
+
+
+    <div class="system-features">
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                ◉
+            </div>
+
+            <h3>
+                Class Imbalance
+            </h3>
+
+            <p>
+
+                Only a tiny fraction of transactions are
+                fraudulent. Accuracy alone can therefore
+                give a misleading impression of model quality.
+
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                ↗
+            </div>
+
+            <h3>
+                Precision & Recall
+            </h3>
+
+            <p>
+
+                Precision, recall, F1 and PR-AUC are used
+                alongside ROC-AUC to evaluate performance
+                under severe class imbalance.
+
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                ◈
+            </div>
+
+            <h3>
+                Probability Scoring
+            </h3>
+
+            <p>
+
+                The Random Forest produces a fraud probability,
+                allowing the classification threshold to be
+                adjusted according to the desired risk tolerance.
+
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                ↓
+            </div>
+
+            <h3>
+                Feature Scaling
+            </h3>
+
+            <p>
+
+                Time and Amount are transformed using the
+                project's saved scaler before being passed
+                to the trained model.
+
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                #
+            </div>
+
+            <h3>
+                PCA Features
+            </h3>
+
+            <p>
+
+                V1–V28 are anonymized PCA components. Their
+                predictive importance does not directly
+                correspond to human-readable business attributes.
+
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                ◇
+            </div>
+
+            <h3>
+                Configurable Threshold
+            </h3>
+
+            <p>
+
+                The detection threshold can be adjusted to
+                prioritize catching more fraud or reducing
+                unnecessary alerts.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     ARCHITECTURE
+========================= -->
+
+<section id="architecture">
+
+    <div class="section-label">
+        System Architecture
+    </div>
+
+    <div class="section-title">
+        From transaction to decision.
+    </div>
+
+
+    <div class="architecture">
+
+        <div class="architecture-flow">
+
+            <div class="architecture-box">
+
+                <strong>
+                    Transaction
+                </strong>
+
+                <span>
+                    Time · Amount · V1–V28
+                </span>
+
+            </div>
+
+
+            <div class="arrow">
+                →
+            </div>
+
+
+            <div class="architecture-box">
+
+                <strong>
+                    Preprocessing
+                </strong>
+
+                <span>
+                    Scale Time & Amount
+                </span>
+
+            </div>
+
+
+            <div class="arrow">
+                →
+            </div>
+
+
+            <div class="architecture-box">
+
+                <strong>
+                    Random Forest
+                </strong>
+
+                <span>
+                    predict_proba()
+                </span>
+
+            </div>
+
+
+            <div class="arrow">
+                →
+            </div>
+
+
+            <div class="architecture-box">
+
+                <strong>
+                    Risk Score
+                </strong>
+
+                <span>
+                    Probability
+                </span>
+
+            </div>
+
+
+            <div class="arrow">
+                →
+            </div>
+
+
+            <div class="architecture-box">
+
+                <strong>
+                    Decision
+                </strong>
+
+                <span>
+                    Fraud / Legit
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     LIMITATIONS
+========================= -->
+
+<section>
+
+    <div class="section-label">
+        Important Context
+    </div>
+
+    <div class="section-title">
+        Know the limitations.
+    </div>
+
+
+    <div class="limitations">
+
+        <h3>
+            Anonymized data means limited explainability.
+        </h3>
+
+        <p>
+
+            The V1–V28 variables are anonymized PCA components.
+            Therefore, feature importance can tell us which
+            components are predictive, but it cannot directly
+            tell us that a transaction was flagged because of
+            a particular merchant, location, device or spending
+            category. A production system would ideally combine
+            model predictions with interpretable transaction
+            attributes and explainability techniques.
+
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     CTA
+========================= -->
+
+<div class="cta">
+
+    <h2>
+
+        Detect smarter.<br>
+
+        <span>Act faster.</span>
+
+    </h2>
+
+
+    <p>
+
+        Explore the complete machine-learning implementation,
+        model training pipeline and evaluation results.
+
+    </p>
+
+
+    <a
+        href="https://github.com/Piyush-not/Credit-Card-Fraud-Detection-System"
+        target="_blank"
+    >
+
+        <button class="primary-btn">
+
+            Explore on GitHub ↗
+
+        </button>
+
+    </a>
+
+</div>
+
+<!-- =========================
+     HELP BUTTON
+========================= -->
+
+<button
+    class="help-button"
+    onclick="openHelp()"
+    aria-label="How FraudGuard works"
+>
+    ?
+</button>
+
+
+<!-- =========================
+     HELP MODAL
+========================= -->
+
+<div
+    class="help-overlay"
+    id="helpOverlay"
+    onclick="closeHelpOnOverlay(event)"
+>
+
+    <div
+        class="help-modal"
+        onclick="event.stopPropagation()"
+    >
+
+        <button
+            class="help-close"
+            onclick="closeHelp()"
+            aria-label="Close"
+        >
+            ×
+        </button>
+
+
+        <div class="section-label">
+            Getting Started
+        </div>
+
+        <h2>
+            How does FraudGuard work?
+        </h2>
+
+        <p class="help-intro">
+
+            New here? Here's a quick explanation of
+            what the scanner does and what each input means.
+
+        </p>
+
+
+        <div class="help-steps">
+
+            <div class="help-step">
+
+                <div class="step-number">
+                    01
+                </div>
+
+                <div>
+
+                    <h3>
+                        Enter transaction details
+                    </h3>
+
+                    <p>
+                        Enter the transaction amount and time.
+                        These are two of the inputs used by
+                        the machine-learning model.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="help-step">
+
+                <div class="step-number">
+                    02
+                </div>
+
+                <div>
+
+                    <h3>
+                        What are V1–V28?
+                    </h3>
+
+                    <p>
+                        V1–V28 are anonymized PCA features
+                        from the credit-card fraud dataset.
+                        They represent transformed transaction
+                        information and are not directly
+                        understandable as things like merchant
+                        or location.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="help-step">
+
+                <div class="step-number">
+                    03
+                </div>
+
+                <div>
+
+                    <h3>
+                        Choose a detection threshold
+                    </h3>
+
+                    <p>
+                        The threshold controls how easily a
+                        transaction is flagged. Lower thresholds
+                        catch more potential fraud but can create
+                        more false alerts.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="help-step">
+
+                <div class="step-number">
+                    04
+                </div>
+
+                <div>
+
+                    <h3>
+                        Run the analysis
+                    </h3>
+
+                    <p>
+                        FraudGuard sends the transaction to the
+                        trained Random Forest model. The model
+                        returns a fraud probability and compares
+                        it with your selected threshold.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="meaning-box">
+
+            <h3>
+                Understanding your result
+            </h3>
+
+            <div class="meaning-row">
+
+                <span class="meaning-dot low"></span>
+
+                <div>
+                    <strong>Below threshold</strong>
+                    <p>
+                        The transaction is classified as
+                        lower risk.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="meaning-row">
+
+                <span class="meaning-dot high"></span>
+
+                <div>
+                    <strong>Above threshold</strong>
+                    <p>
+                        The transaction is flagged as
+                        potential fraud.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="help-note">
+
+            <strong>Important:</strong>
+            FraudGuard is an educational machine-learning
+            project. Its predictions should not be used as
+            the sole basis for real financial decisions.
+
+        </div>
+
+
+    </div>
+
+</div>
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <div>
+        © 2026 FraudGuard · Credit Card Fraud Detection
+    </div>
+
+    <div>
+        Machine Learning Project
+    </div>
+
+</footer>
+
+
+<script>
+    /* ============================================
+   LOAD REAL DEMO TRANSACTION
+============================================ */
+
+async function loadDemoTransaction(type) {
+    const status = document.getElementById("demoStatus");
+
+    if (status) {
+        status.textContent = "Loading complete transaction...";
+    }
+
+    try {
+        const response = await fetch(
+            `${API_URL}/demo-transaction?type=${type}`
+        );
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                result.error || "Could not load demo transaction."
+            );
+        }
+
+        const transaction = result.transaction;
+
+        // -----------------------------
+        // TIME
+        // -----------------------------
+        const timeInput = document.getElementById("Time");
+
+        if (timeInput) {
+            timeInput.value = transaction.Time;
+        }
+
+        // -----------------------------
+        // AMOUNT
+        // -----------------------------
+        const amountInput = document.getElementById("Amount");
+
+        if (amountInput) {
+            amountInput.value = transaction.Amount;
+        }
+
+        // -----------------------------
+        // V1 - V28
+        // -----------------------------
+        for (let i = 1; i <= 28; i++) {
+            const input = document.getElementById(`V${i}`);
+
+            if (input) {
+                input.value = transaction[`V${i}`];
+            }
+        }
+
+        // -----------------------------
+        // STATUS MESSAGE
+        // -----------------------------
+        const label =
+            type === "fraud"
+                ? "fraudulent"
+                : "legitimate";
+
+        if (status) {
+            status.textContent =
+    `Complete ${label} transaction loaded. ` +
+    `All 30 model features are populated.`;
+        }
+
+        // -----------------------------
+        // OPEN ADVANCED FEATURES
+        // -----------------------------
+        const advanced =
+            document.getElementById("advancedFeatures");
+
+        if (advanced) {
+            advanced.classList.add("open");
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Demo transaction error:",
+            error
+        );
+
+        if (status) {
+            status.textContent =
+                error.message ||
+                "Unable to load demo transaction.";
+        }
+    }
+}
+
+
+    /* ============================================
+       API CONFIGURATION
+    ============================================ */
+
+    /*
+        LOCAL DEVELOPMENT
+
+        Flask is running on:
+        http://127.0.0.1:5000
+
+        Later, when we deploy Flask, change this to
+        your production backend URL.
+    */
+
+    const API_URL =
+        "http://127.0.0.1:5000";
+
+
+    /* ============================================
+       CREATE V1 - V28 INPUTS
+    ============================================ */
+
+    const featureGrid =
+        document.getElementById(
+            "featureGrid"
+        );
+
+
+    for (let i = 1; i <= 28; i++) {
+
+        const input =
+            document.createElement("input");
+
+        input.type = "number";
+
+        input.step = "any";
+
+        input.placeholder = `V${i}`;
+
+        input.id = `V${i}`;
+
+        /*
+            Default PCA feature value = 0.
+
+            This allows the user to test the interface
+            without manually entering all 28 fields.
+
+            For a real transaction, users can expand the
+            advanced section and provide actual values.
+        */
+
+        input.value = "";
+
+featureGrid.appendChild(input);
+
+    }
+
+
+    /* ============================================
+       ADVANCED FEATURES
+    ============================================ */
+
+    function toggleAdvanced() {
+
+        const box =
+            document.getElementById(
+                "advancedFeatures"
+            );
+
+        const icon =
+            document.getElementById(
+                "advancedIcon"
+            );
+
+
+        box.classList.toggle("open");
+
+
+        if (box.classList.contains("open")) {
+
+            icon.innerText = "−";
+
+        }
+
+        else {
+
+            icon.innerText = "+";
+
+        }
+
+    }
+
+
+    /* ============================================
+       THRESHOLD
+    ============================================ */
+
+    function updateThreshold() {
+
+        const slider =
+            document.getElementById(
+                "threshold"
+            );
+
+        const display =
+            document.getElementById(
+                "thresholdValue"
+            );
+
+
+        display.innerText =
+            slider.value + "%";
+
+    }
+
+
+    /* ============================================
+       SCROLL BUTTONS
+    ============================================ */
+
+    function scrollToScanner() {
+
+        document
+            .getElementById("scanner")
+            .scrollIntoView({
+                behavior: "smooth"
+            });
+
+    }
+
+
+    function scrollToModels() {
+
+        document
+            .getElementById("models")
+            .scrollIntoView({
+                behavior: "smooth"
+            });
+
+    }
+
+
+    /* ============================================
+       SHOW ERROR
+    ============================================ */
+
+    function showError(message) {
+
+        const error =
+            document.getElementById(
+                "errorMessage"
+            );
+
+        error.innerText = message;
+
+        error.style.display = "block";
+
+    }
+
+
+    function hideError() {
+
+        const error =
+            document.getElementById(
+                "errorMessage"
+            );
+
+        error.style.display = "none";
+
+    }
+
+
+    /* ============================================
+       UPDATE RESULT CIRCLE
+    ============================================ */
+
+    function updateRiskCircle(probability) {
+
+        const circle =
+            document.getElementById(
+                "riskCircle"
+            );
+
+
+        const percentage =
+            probability * 100;
+
+
+        circle.style.background =
+            `conic-gradient(
+                var(--orange)
+                0% ${percentage}%,
+                #242424
+                ${percentage}% 100%
+            )`;
+
+    }
+
+
+    /* ============================================
+       ANALYZE TRANSACTION
+    ============================================ */
+
+    async function analyzeTransaction() {
+
+        hideError();
+
+
+        const button =
+            document.getElementById(
+                "scanButton"
+            );
+
+
+        button.disabled = true;
+
+        button.innerText =
+            "Analyzing transaction...";
+
+
+        try {
+
+            /* ------------------------------------
+               GET MAIN INPUTS
+            ------------------------------------ */
+
+            const time =
+                parseFloat(
+                    document.getElementById(
+                        "Time"
+                    ).value
+                );
+
+            const amount =
+                parseFloat(
+                    document.getElementById(
+                        "Amount"
+                    ).value
+                );
+
+
+            if (Number.isNaN(time)) {
+
+                throw new Error(
+                    "Please enter the transaction time."
+                );
+
+            }
+
+
+            if (Number.isNaN(amount)) {
+
+                throw new Error(
+                    "Please enter the transaction amount."
+                );
+
+            }
+
+
+            /* ------------------------------------
+               CREATE TRANSACTION OBJECT
+            ------------------------------------ */
+
+            const transaction = {
+
+                Time: time,
+
+                Amount: amount
+
+            };
+
+
+            /* ------------------------------------
+               ADD V1 - V28
+            ------------------------------------ */
+
+            for (let i = 1; i <= 28; i++) {
+
+                const input =
+                    document.getElementById(
+                        `V${i}`
+                    );
+
+
+                const value =
+                    parseFloat(input.value);
+
+
+                if (Number.isNaN(value)) {
+
+    throw new Error(
+        `Please enter a value for V${i}, or use a Quick Demo transaction.`
+    );
+
+}
+
+transaction[`V${i}`] = value;
+
+            }
+
+
+            /* ------------------------------------
+               THRESHOLD
+            ------------------------------------ */
+
+            const threshold =
+                parseInt(
+                    document.getElementById(
+                        "threshold"
+                    ).value
+                ) / 100;
+
+
+            transaction.threshold =
+                threshold;
+
+
+            /* ------------------------------------
+               SEND TO FLASK
+            ------------------------------------ */
+
+            const response =
+                await fetch(
+                    `${API_URL}/predict`,
+                    {
+
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify(
+                                transaction
+                            )
+
+                    }
+                );
+
+
+            const result =
+                await response.json();
+
+
+            /* ------------------------------------
+               BACKEND ERROR
+            ------------------------------------ */
+
+            if (!response.ok) {
+
+                throw new Error(
+                    result.error ||
+                    "Prediction request failed."
+                );
+
+            }
+
+
+            /* ------------------------------------
+               GET RESULT
+            ------------------------------------ */
+
+            const probability =
+                Number(
+                    result.fraud_probability
+                );
+
+
+            const percentage =
+                Number(
+                    result.fraud_percentage
+                );
+
+
+            const isFraud =
+                Boolean(
+                    result.is_fraud
+                );
+
+
+            /* ------------------------------------
+               UPDATE CIRCLE
+            ------------------------------------ */
+
+            updateRiskCircle(
+                probability
+            );
+
+
+            document.getElementById(
+                "riskScore"
+            ).innerText =
+                percentage.toFixed(1) + "%";
+
+
+            /* ------------------------------------
+               STATUS
+            ------------------------------------ */
+
+            const status =
+                document.getElementById(
+                    "riskStatus"
+                );
+
+
+            const description =
+                document.getElementById(
+                    "riskDescription"
+                );
+
+
+            if (isFraud) {
+
+                status.innerText =
+                    "HIGH RISK · FRAUD DETECTED";
+
+
+                description.innerText =
+                    "The predicted probability exceeded the configured detection threshold.";
+
+            }
+
+            else {
+
+                status.innerText =
+                    "LOW RISK · LEGITIMATE";
+
+
+                description.innerText =
+                    "The predicted probability remained below the configured detection threshold.";
+
+            }
+
+
+            /* ------------------------------------
+               DETAILS
+            ------------------------------------ */
+
+            document.getElementById(
+                "resultModel"
+            ).innerText =
+                result.model;
+
+
+            document.getElementById(
+                "resultThreshold"
+            ).innerText =
+                Math.round(
+                    result.threshold * 100
+                ) + "%";
+
+
+            document.getElementById(
+                "resultDecision"
+            ).innerText =
+                isFraud
+                    ? "FLAG"
+                    : "ALLOW";
+
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+
+            showError(
+                error.message ||
+                "Could not connect to the prediction API."
+            );
+
+        }
+
+        finally {
+
+            button.disabled = false;
+
+            button.innerText =
+                "Run Fraud Analysis →";
+
+        }
+
+    }
+
+
+    /* ============================================
+       CSV PLACEHOLDER
+    ============================================ */
+
+    function csvSelected() {
+
+        const file =
+            document.getElementById(
+                "csvFile"
+            ).files[0];
+
+
+        const status =
+            document.getElementById(
+                "csvStatus"
+            );
+
+
+        if (!file) {
+
+            status.innerText =
+                "No file selected.";
+
+            return;
+
+        }
+
+
+        status.innerText =
+            `${file.name} selected. Batch prediction API will be connected next.`;
+
+    }
+    /* ============================================
+   HELP MODAL
+============================================ */
+
+function openHelp() {
+
+    document
+        .getElementById("helpOverlay")
+        .classList.add("active");
+
+    document.body.style.overflow = "hidden";
+
+}
+
+
+function closeHelp() {
+
+    document
+        .getElementById("helpOverlay")
+        .classList.remove("active");
+
+    document.body.style.overflow = "";
+
+}
+
+
+function closeHelpOnOverlay(event) {
+
+    if (
+        event.target.id ===
+        "helpOverlay"
+    ) {
+
+        closeHelp();
+
+    }
+
+}
+
+
+/* Close with ESC */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.key === "Escape"
+        ) {
+
+            closeHelp();
+
+        }
+
+    }
+);
+function openHelp() {
+
+    const overlay =
+        document.getElementById("helpOverlay");
+
+    overlay.classList.add("active");
+
+}
+
+
+function closeHelp() {
+
+    const overlay =
+        document.getElementById("helpOverlay");
+
+    overlay.classList.remove("active");
+
+}
+</script>
+<!-- HELP BUTTON -->
+<button
+    id="helpButton"
+    class="help-button"
+    onclick="openHelp()"
+    aria-label="How FraudGuard works"
+>
+    ?
+</button>
+
+<!-- HELP MODAL -->
+<div id="helpOverlay" class="help-overlay">
+    <div class="help-modal">
+
+        <button
+            class="help-close"
+            onclick="closeHelp()"
+        >
+            ×
+        </button>
+
+        <div class="section-label">GETTING STARTED</div>
+
+        <h2>How does FraudGuard work?</h2>
+
+        <p class="help-intro">
+            New to the project? Here's a quick guide to
+            understanding the transaction scanner.
+        </p>
+
+        <div class="help-step">
+            <strong>01 — Enter transaction details</strong>
+            <p>
+                Enter the transaction amount and time.
+                These are two of the inputs used by the
+                fraud detection model.
+            </p>
+        </div>
+
+        <div class="help-step">
+            <strong>02 — V1–V28 features</strong>
+            <p>
+                V1–V28 are anonymized, PCA-transformed
+                features from the underlying dataset.
+                Their original meanings are not exposed.
+            </p>
+        </div>
+
+        <div class="help-step">
+            <strong>03 — Detection threshold</strong>
+            <p>
+                The threshold determines how much predicted
+                fraud probability is required before a
+                transaction is flagged.
+            </p>
+        </div>
+
+        <div class="help-step">
+            <strong>04 — Run the analysis</strong>
+            <p>
+                The trained machine-learning model evaluates
+                the transaction and provides a fraud-risk
+                assessment.
+            </p>
+        </div>
+
+        <div class="help-note">
+            <strong>Note:</strong>
+            This is an educational machine-learning project.
+            Predictions should not be used as the sole basis
+            for real financial decisions.
+        </div>
+
+    </div>
+</div>
+
+</body>
+
+</html>

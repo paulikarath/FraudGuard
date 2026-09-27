@@ -1,0 +1,29 @@
+venv/
+.venv/
+__pycache__/
+*.pyc
+.vscode/
+data/creditcard.csv
+outputs/scored.csv
+fraud_detection_project/outputs/scored.csv
+# Python virtual environment
+venv/
+.env
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Full credit card dataset
+data/creditcard.csv
+
+# Generated/local files
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
